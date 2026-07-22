@@ -1,247 +1,248 @@
+/* ===================================
+   PayLink Pro v2
+=================================== */
+
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
+
+:root{
+
+--bg:#020617;
+--bg2:#0f172a;
+
+--card:#111827;
+
+--primary:#2563eb;
+
+--primary2:#1d4ed8;
+
+--success:#10b981;
+
+--text:#ffffff;
+
+--muted:#94a3b8;
+
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    background:#0f172a;
-    color:#fff;
+
+background:linear-gradient(180deg,var(--bg),var(--bg2));
+
+color:var(--text);
+
+overflow-x:hidden;
+
 }
+
+/* HERO */
 
 .hero{
-    text-align:center;
-    padding:60px 20px 40px;
-}
 
-.logo{
-    width:90px;
-    height:90px;
-    margin:auto;
-    background:#2563eb;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:40px;
-    margin-bottom:20px;
-    box-shadow:0 10px 30px rgba(37,99,235,.35);
-}
+position:relative;
 
-.hero h1{
-    font-size:56px;
-    font-weight:700;
-    margin-bottom:15px;
-}
+min-height:100vh;
 
-.hero p{
-    color:#94a3b8;
-    font-size:20px;
-}
-
-.container{
-    width:90%;
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-    gap:30px;
-    padding-bottom:60px;
-}
-
-.card{
-    background:#1e293b;
-    border-radius:22px;
-    padding:25px;
-    box-shadow:0 20px 40px rgba(0,0,0,.25);
-    transition:.3s;
-}
-
-.card:hover{
-    transform:translateY(-8px);
-}
-
-.card h2{
-    font-size:28px;
-    margin-bottom:18px;
-}
-
-.info{
-    margin:8px 0;
-    color:#cbd5e1;
-    line-height:1.7;
-    word-break:break-word;
-}
-
-.actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:15px;
-    align-items:center;
-    margin-top:20px;
-}
-
-button{
-    border:none;
-    padding:12px 22px;
-    border-radius:12px;
-    background:#22c55e;
-    color:#fff;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:600;
-    transition:.25s;
-}
-
-button:hover{
-    background:#16a34a;
-}
-
-.qr{
-    background:#fff;
-    padding:10px;
-    border-radius:14px;
-}
-
-footer{
-    text-align:center;
-    padding:40px 20px;
-    color:#94a3b8;
-    border-top:1px solid rgba(255,255,255,.08);
-}
-
-@media(max-width:768px){
-
-.hero h1{
-    font-size:42px;
-}
-
-.hero p{
-    font-size:18px;
-}
-
-.container{
-    width:95%;
-}
-
-.card{
-    padding:20px;
-}
-
-.card h2{
-    font-size:24px;
-}
-
-.actions{
-    flex-direction:column;
-    align-items:flex-start;
-}
-
-button{
-    width:100%;
-}
-
-.qr{
-    margin:auto;
-}
-
-}
-.hero{
-min-height:70vh;
 display:flex;
+
 justify-content:center;
+
 align-items:center;
-padding:60px 20px;
+
+padding:80px 20px;
+
+overflow:hidden;
+
+}
+
+.overlay{
+
+position:absolute;
+
+inset:0;
+
 background:
-radial-gradient(circle at top,#2563eb 0%,transparent 40%),
-linear-gradient(135deg,#020617,#0f172a,#111827);
+
+radial-gradient(circle at top,#2563eb55,transparent 45%),
+
+radial-gradient(circle at bottom,#06b6d455,transparent 45%);
+
+z-index:0;
+
 }
 
-.glass{
-width:100%;
-max-width:900px;
-padding:60px;
-border-radius:30px;
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(20px);
-border:1px solid rgba(255,255,255,.08);
+.hero-content{
+
+position:relative;
+
+z-index:5;
+
 text-align:center;
-box-shadow:0 20px 60px rgba(0,0,0,.4);
+
+max-width:900px;
+
 }
 
 .logo{
-width:110px;
-height:110px;
+
+width:120px;
+
+height:120px;
+
 margin:auto;
-border-radius:50%;
+
+border-radius:30px;
+
 display:flex;
+
 justify-content:center;
+
 align-items:center;
-font-size:48px;
+
+font-size:56px;
+
 background:linear-gradient(135deg,#2563eb,#06b6d4);
-box-shadow:0 0 40px rgba(37,99,235,.5);
-margin-bottom:25px;
+
+box-shadow:0 25px 60px rgba(37,99,235,.4);
+
+margin-bottom:30px;
+
 }
 
 .hero h1{
-font-size:64px;
-font-weight:700;
-margin-bottom:15px;
+
+font-size:72px;
+
+font-weight:800;
+
+letter-spacing:-2px;
+
 }
 
 .hero p{
+
+margin-top:18px;
+
 font-size:22px;
-color:#94a3b8;
-margin-bottom:35px;
+
+color:var(--muted);
+
 }
 
-.hero-buttons{
+.heroQR{
+
+margin:40px auto;
+
+background:#fff;
+
+padding:18px;
+
+border-radius:24px;
+
+width:230px;
+
+height:230px;
+
 display:flex;
+
 justify-content:center;
-gap:20px;
-flex-wrap:wrap;
+
+align-items:center;
+
+box-shadow:0 20px 60px rgba(0,0,0,.35);
+
 }
 
-.primary{
-background:#2563eb;
-padding:15px 35px;
+.scanText{
+
+margin-top:-10px;
+
+color:var(--muted);
+
+}
+
+.startBtn{
+
+display:inline-block;
+
+margin-top:35px;
+
+background:var(--primary);
+
+padding:18px 40px;
+
 border-radius:14px;
-font-size:18px;
-font-weight:600;
-transition:.3s;
-}
 
-.primary:hover{
-transform:translateY(-5px);
-background:#1d4ed8;
-}
-
-.secondary{
-background:transparent;
-border:2px solid #334155;
-padding:15px 35px;
-border-radius:14px;
-font-size:18px;
 color:white;
+
+text-decoration:none;
+
+font-weight:600;
+
 transition:.3s;
+
 }
 
-.secondary:hover{
-background:#1e293b;
+.startBtn:hover{
+
+background:var(--primary2);
+
 transform:translateY(-5px);
+
 }
+
+/* PAYMENTS */
+
+.payments{
+
+max-width:1300px;
+
+margin:auto;
+
+padding:80px 20px;
+
+}
+
+.payments h2{
+
+text-align:center;
+
+font-size:42px;
+
+margin-bottom:50px;
+
+}
+
+#cards{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+gap:30px;
+
+}/* ==========================
+   PAYMENT CARDS
+========================== */
+
 .bank-card{
 background:rgba(255,255,255,.05);
+backdrop-filter:blur(18px);
 border:1px solid rgba(255,255,255,.08);
 border-radius:24px;
-padding:25px;
-transition:.3s;
+padding:28px;
+transition:.35s ease;
+box-shadow:0 15px 35px rgba(0,0,0,.25);
 }
 
 .bank-card:hover{
-transform:translateY(-8px);
-box-shadow:0 20px 50px rgba(37,99,235,.25);
+transform:translateY(-10px);
+border-color:#2563eb;
+box-shadow:0 25px 60px rgba(37,99,235,.25);
 }
 
 .bank-top{
@@ -252,73 +253,150 @@ margin-bottom:25px;
 }
 
 .bank-icon{
-width:60px;
-height:60px;
-border-radius:18px;
-background:#2563eb;
+width:70px;
+height:70px;
+border-radius:20px;
+background:linear-gradient(135deg,#2563eb,#06b6d4);
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:28px;
+font-size:32px;
+flex-shrink:0;
 }
 
 .bank-top h3{
-font-size:22px;
-margin:0;
+font-size:24px;
+font-weight:700;
+margin-bottom:5px;
 }
 
 .bank-top p{
-margin-top:4px;
-color:#94a3b8;
+color:var(--muted);
+font-size:14px;
 }
 
-.account-box{
-background:#111827;
-padding:16px;
-border-radius:14px;
-margin-bottom:20px;
-}
-
-.account-box span{
-font-size:13px;
-color:#94a3b8;
-}
-
-.account-box h4{
-margin-top:8px;
-font-size:18px;
-word-break:break-all;
-}
-
-.button-group{
+.bank-bottom{
+margin-top:25px;
 display:flex;
-gap:12px;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
 }
 
-.copy-btn,
-.pay-btn{
+.bank-bottom button{
 flex:1;
+min-width:140px;
 padding:14px;
 border:none;
 border-radius:12px;
-font-weight:600;
 cursor:pointer;
+font-weight:600;
+font-size:15px;
+transition:.3s;
 }
 
-.copy-btn{
+.bank-bottom button:first-child{
 background:#2563eb;
 color:#fff;
 }
 
-.pay-btn{
-background:#10b981;
-color:#fff;
-}
-
-.copy-btn:hover{
+.bank-bottom button:first-child:hover{
 background:#1d4ed8;
 }
 
-.pay-btn:hover{
-background:#059669;
+.qr{
+background:#fff;
+padding:10px;
+border-radius:16px;
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+footer{
+margin-top:70px;
+padding:40px 20px;
+text-align:center;
+border-top:1px solid rgba(255,255,255,.08);
+}
+
+.footerLogo{
+font-size:28px;
+font-weight:700;
+margin-bottom:10px;
+}
+
+footer p{
+color:var(--muted);
+}
+
+/* ==========================
+   SCROLLBAR
+========================== */
+
+::-webkit-scrollbar{
+width:10px;
+}
+
+::-webkit-scrollbar-track{
+background:#020617;
+}
+
+::-webkit-scrollbar-thumb{
+background:#334155;
+border-radius:20px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#475569;
+}
+
+/* ==========================
+   MOBILE
+========================== */
+
+@media(max-width:768px){
+
+.hero{
+padding:60px 20px;
+}
+
+.logo{
+width:90px;
+height:90px;
+font-size:42px;
+}
+
+.hero h1{
+font-size:46px;
+}
+
+.hero p{
+font-size:18px;
+}
+
+.heroQR{
+width:180px;
+height:180px;
+}
+
+.payments h2{
+font-size:32px;
+}
+
+.bank-bottom{
+flex-direction:column;
+align-items:stretch;
+}
+
+.bank-bottom button{
+width:100%;
+}
+
+.qr{
+margin:auto;
+}
+
 }
