@@ -1,0 +1,149 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background:#0f172a;
+    color:#fff;
+}
+
+.hero{
+    text-align:center;
+    padding:60px 20px 40px;
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    margin:auto;
+    background:#2563eb;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    margin-bottom:20px;
+    box-shadow:0 10px 30px rgba(37,99,235,.35);
+}
+
+.hero h1{
+    font-size:56px;
+    font-weight:700;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#94a3b8;
+    font-size:20px;
+}
+
+.container{
+    width:90%;
+    max-width:1200px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+    gap:30px;
+    padding-bottom:60px;
+}
+
+.card{
+    background:#1e293b;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    font-size:28px;
+    margin-bottom:18px;
+}
+
+.info{
+    margin:8px 0;
+    color:#cbd5e1;
+    line-height:1.7;
+    word-break:break-word;
+}
+
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+    align-items:center;
+    margin-top:20px;
+}
+
+button{
+    border:none;
+    padding:12px 22px;
+    border-radius:12px;
+    background:#22c55e;
+    color:#fff;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+    transition:.25s;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+.qr{
+    background:#fff;
+    padding:10px;
+    border-radius:14px;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#94a3b8;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+@media(max-width:768px){
+
+.hero h1{
+    font-size:42px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+.container{
+    width:95%;
+}
+
+.card{
+    padding:20px;
+}
+
+.card h2{
+    font-size:24px;
+}
+
+.actions{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+button{
+    width:100%;
+}
+
+.qr{
+    margin:auto;
+}
+
+}
