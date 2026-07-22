@@ -1,239 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<header class="hero">
 
-<title>PayLink Pro | One QR. Every Payment.</title>
+<div class="glass">
 
-<script src="https://cdn.tailwindcss.com"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-font-family:'Poppins',sans-serif;
-background:#020617;
-}
-
-.glass{
-background:rgba(255,255,255,.06);
-backdrop-filter:blur(16px);
-border:1px solid rgba(255,255,255,.08);
-}
-
-.hero-bg{
-
-background:
-radial-gradient(circle at top,#2563eb55,transparent 45%),
-linear-gradient(180deg,#020617,#0f172a);
-
-}
-
-</style>
-
-</head>
-
-<body class="text-white">
-
-<section class="hero-bg">
-
-<div class="max-w-6xl mx-auto px-6 py-16">
-
-<div class="text-center">
-
-<div class="w-24 h-24 rounded-full bg-blue-600 flex items-center justify-center text-5xl mx-auto shadow-2xl">
-
+<div class="logo">
 💳
-
 </div>
 
-<h1 class="text-5xl md:text-7xl font-extrabold mt-8">
+<h1>PayLink Pro</h1>
 
-PayLink Pro
+<p>One QR. Every Payment.</p>
 
-</h1>
+<div class="hero-buttons">
 
-<p class="text-slate-300 mt-4 text-xl">
+<button class="primary">
+Create Your PayLink
+</button>
 
-One QR. Every Payment.
-
-</p>
-
-<div id="websiteQR"
-
-class="bg-white rounded-3xl p-5 inline-block mt-10 shadow-2xl">
-
-</div>
-
-<p class="text-slate-400 mt-5">
-
-Scan this QR to open your payment page
-
-</p>
-
-<a href="#payments"
-
-class="inline-block mt-8 bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl font-semibold transition">
-
-Choose Payment Method
-
-</a>
+<button class="secondary">
+View Demo
+</button>
 
 </div>
 
 </div>
 
-</section>
+</header>
 
-<section id="payments"
+<main class="container">
 
-class="max-w-7xl mx-auto px-6 py-20">
+<div id="cards"></div>
 
-<h2
+</main>
 
-class="text-4xl font-bold text-center mb-12">
+<footer>
 
-Choose Payment Method
-
-</h2>
-
-<div
-
-id="cards"
-
-class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-</div>
-
-</section><footer class="border-t border-slate-800">
-
-<div class="max-w-6xl mx-auto px-6 py-10 text-center">
-
-<h3 class="text-2xl font-bold">
-
-PayLink Pro
-
-</h3>
-
-<p class="text-slate-400 mt-3">
-
-One QR. Every Payment.
-
-</p>
-
-<p class="text-slate-500 text-sm mt-6">
-
-© 2026 PayLink Pro. All Rights Reserved.
-
-</p>
-
-</div>
+© 2026 PayLink Pro
 
 </footer>
 
-<!-- Payment Modal -->
-
-<div
-id="paymentModal"
-class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
-
-<div
-class="glass rounded-3xl w-[92%] max-w-md p-8">
-
-<h2
-id="modalTitle"
-class="text-3xl font-bold mb-6">
-
-Payment
-
-</h2>
-
-<div class="space-y-4">
-
-<div>
-
-<p class="text-slate-400 text-sm">
-
-Account Title
-
-</p>
-
-<p
-id="modalOwner"
-class="font-semibold text-lg">
-
--
-
-</p>
-
-</div>
-
-<div>
-
-<p class="text-slate-400 text-sm">
-
-Account Number
-
-</p>
-
-<p
-id="modalNumber"
-class="font-semibold break-all">
-
--
-
-</p>
-
-</div>
-
-</div>
-
-<div class="grid gap-3 mt-8">
-
-<button
-
-id="copyBtn"
-
-class="bg-blue-600 hover:bg-blue-700 rounded-xl py-3 font-semibold transition">
-
-📋 Copy Number
-
-</button>
-
-<button
-
-id="paidBtn"
-
-class="bg-emerald-600 hover:bg-emerald-700 rounded-xl py-3 font-semibold transition">
-
-✅ I Have Paid
-
-</button>
-
-<button
-
-id="closeBtn"
-
-class="bg-red-600 hover:bg-red-700 rounded-xl py-3 font-semibold transition">
-
-✖ Close
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
 <script src="script.js"></script>
-
-</body>
-</html>
