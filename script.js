@@ -1,84 +1,103 @@
+/* ===================================
+   PayLink Pro v2
+=================================== */
+
+const business = {
+    owner: "Mian Zain",
+    whatsapp: "923001234567"
+};
+
 const payments = [
 {
-name: "Standard Chartered",
-title: "Mian Zain",
-number: "PK12SCBL000000000000000000",
-type: "IBAN"
+name:"🏦 Standard Chartered",
+type:"IBAN",
+number:"PK12SCBL000000000000000000"
 },
 {
-name: "HBL",
-title: "Mian Zain",
-number: "PK45HABB111111111111111111",
-type: "IBAN"
+name:"🏦 HBL",
+type:"IBAN",
+number:"PK45HABB111111111111111111"
 },
 {
-name: "Bank Alfalah",
-title: "Mian Zain",
-number: "PK78ALFH222222222222222222",
-type: "IBAN"
+name:"🏦 Meezan Bank",
+type:"IBAN",
+number:"PK99MEEZ333333333333333333"
 },
 {
-name: "Meezan Bank",
-title: "Mian Zain",
-number: "PK99MEEZ333333333333333333",
-type: "IBAN"
+name:"🏦 Bank Alfalah",
+type:"IBAN",
+number:"PK78ALFH222222222222222222"
 },
 {
-name: "JazzCash",
-title: "Mian Zain",
-number: "03001234567",
-type: "Mobile"
+name:"📱 JazzCash",
+type:"Mobile",
+number:"03001234567"
 },
 {
-name: "EasyPaisa",
-title: "Mian Zain",
-number: "03111234567",
-type: "Mobile"
+name:"📱 EasyPaisa",
+type:"Mobile",
+number:"03111234567"
 },
 {
-name: "NayaPay",
-title: "Mian Zain",
-number: "03221234567",
-type: "Mobile"
+name:"💳 NayaPay",
+type:"Mobile",
+number:"03221234567"
 },
 {
-name: "SadaPay",
-title: "Mian Zain",
-number: "03331234567",
-type: "Mobile"
+name:"💳 SadaPay",
+type:"Mobile",
+number:"03331234567"
 }
 ];
 
-// Website QR
-new QRCode(document.getElementById("websiteQR"), {
-text: window.location.href,
-width: 220,
-height: 220
+/* ---------- Hero QR ---------- */
+
+new QRCode(document.getElementById("websiteQR"),{
+text:window.location.href,
+width:190,
+height:190
 });
 
-const cards = document.getElementById("cards");
+/* ---------- Cards ---------- */
 
-payments.forEach((payment, index) => {
+const cards=document.getElementById("cards");
 
-const card = document.createElement("div");
+payments.forEach((payment,index)=>{
 
-card.className = "bank-card";
+const card=document.createElement("div");
 
-card.innerHTML = `
+card.className="bank-card";
+
+card.innerHTML=`
+
 <div class="bank-top">
 
 <div class="bank-icon">
-🏦
+💳
 </div>
 
 <div>
 
 <h3>${payment.name}</h3>
 
-<p><strong>Account Title:</strong> ${payment.title}</p>
+<p>
 
-<p><strong>${payment.type}:</strong>
-<span id="num${index}">${payment.number}</span>
+<b>Account Holder</b><br>
+
+${business.owner}
+
+</p>
+
+<p style="margin-top:10px">
+
+<b>${payment.type}</b><br>
+
+<span id="num${index}">
+
+${payment.number}
+
+</span>
+
 </p>
 
 </div>
@@ -88,29 +107,39 @@ card.innerHTML = `
 <div class="bank-bottom">
 
 <button onclick="copyNumber('num${index}')">
-Copy
+
+📋 Copy
+
 </button>
 
-<div id="qr${index}"></div>
+<div class="qr" id="qr${index}"></div>
 
 </div>
+
 `;
 
 cards.appendChild(card);
 
 new QRCode(document.getElementById(`qr${index}`),{
-text: payment.number,
-width:120,
-height:120
+
+text:payment.number,
+
+width:110,
+
+height:110
+
 });
 
 });
+
+/* ---------- Copy ---------- */
 
 function copyNumber(id){
 
-const text=document.getElementById(id).innerText;
+const value=document.getElementById(id).innerText;
 
-navigator.clipboard.writeText(text);
+navigator.clipboard.writeText(value);
 
-alert("Copied Successfully");
+alert("Copied Successfully ✅");
+
 }
