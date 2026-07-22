@@ -55,7 +55,53 @@ new QRCode(document.getElementById("websiteQR"), {
 
 const cards = document.getElementById("cards");
 
-payments.forEach((payment, index) => {
+payments.forEach((card.innerHTML = `
+<div class="bank-card">
+
+<div class="bank-top">
+
+<div class="bank-icon">
+💳
+</div>
+
+<div>
+
+<h3>${payment.name}</h3>
+
+<p>${business.owner}</p>
+
+</div>
+
+</div>
+
+<div class="account-box">
+
+<span>${payment.type}</span>
+
+<h4>${payment.number}</h4>
+
+</div>
+
+<div class="button-group">
+
+<button class="copy-btn"
+onclick="copyNumber('${payment.number}')">
+
+📋 Copy
+
+</button>
+
+<button class="pay-btn"
+onclick="openModal(${index})">
+
+💳 Pay Now
+
+</button>
+
+</div>
+
+</div>
+`;) => {
 
   const card = document.createElement("div");
 
