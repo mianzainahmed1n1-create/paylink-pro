@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ur" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayLink Pro — One QR. Every Payment.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#07070a;
+    --gold:#d4af37;
+    --gold-soft:#f3dfa3;
+    --rose:#e3b98f;
+    --ivory:#f6f1e6;
+    --muted:#9a917c;
+    --hair:rgba(212,175,55,0.16);
+    --shadow-lg: 0 40px 80px rgba(0,0,0,0.6);
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    min-height:100vh;
+    background: var(--void);
+    color:var(--ivory);
+    font-family:'Manrope', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:56px 16px 100px;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ---------------- CURTAIN INTRO ---------------- */
+  .curtain{
+    position:fixed; inset:0; z-index:100;
+    display:flex; pointer-events:none;
+  }
+  .curtain .panel{
+    flex:1; height:100%;
+    background:
+      linear-gradient(160deg, #1a1512, #08070a 70%);
+    position:relative;
+    overflow:hidden;
+    animation: none;
+  }
+  .curtain .panel::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(115deg, transparent 40%, rgba(212,175,55,0.35) 50%, transparent 60%);
+  }
+  .curtain .panel:nth-child(1){ animation: slideLeft 1s cubic-bezier(.7,0,.15,1) .5s forwards; }
+  .curtain .panel:nth-child(2){ animation: slideRight 1s cubic-bezier(.7,0,.15,1) .5s forwards; }
+  @keyframes slideLeft{ to{ transform:translateX(-105%); } }
+  @keyframes slideRight{ to{ transform:translateX(105%); } }
+  .curtain-mark{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:15px;
+    letter-spacing:3px;
+    color:var(--gold-soft);
+    opacity:0;
+    animation: markFade 1.4s ease forwards;
+    z-index:2;
+    white-space:nowrap;
+  }
+  @keyframes markFade{
+    0%{ opacity:0; letter-spacing:8px; }
+    35%{ opacity:1; letter-spacing:3px; }
+    75%{ opacity:1; }
+    100%{ opacity:0; }
+  }
+
+  /* ---------------- GRAIN TEXTURE ---------------- */
+  .grain{
+    position:fixed; inset:0; z-index:2; pointer-events:none;
+    opacity:0.035; mix-blend-mode:overlay;
+  }
+
+  /* ---------------- AMBIENT BACKGROUND ---------------- */
+  .glow{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(circle at 25% 20%, rgba(212,175,55,0.14), transparent 40%),
+      radial-gradient(circle at 80% 75%, rgba(227,185,143,0.10), transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(212,175,55,0.06), transparent 50%);
+    animation: drift 14s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{ transform:scale(1) translate(0,0); }
+    100%{ transform:scale(1.15) translate(2%, -2%); }
+  }
+  .motes{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+  .mote{
+    position:absolute; width:3px; height:3px; border-radius:50%;
+    background:var(--gold-soft); opacity:0;
+    animation: floatUp 8s linear infinite;
+  }
+  @keyframes floatUp{
+    0%{ opacity:0; transform:translateY(0); }
+    10%{ opacity:.55; } 90%{ opacity:.35; }
+    100%{ opacity:0; transform:translateY(-140px); }
+  }
+
+  .sheet{ width:100%; max-width:440px; position:relative; z-index:1; }
+
+  /* ---------------- SEAL (decorative QR) ---------------- */
+  .seal-wrap{
+    display:flex; justify-content:center; margin-bottom:14px;
+    opacity:0; animation: riseIn .8s cubic-bezier(.2,.8,.2,1) .4s forwards;
+  }
+  .seal{
+    width:54px; height:54px;
+    border-radius:12px;
+    background:#0d0b0f;
+    border:1px solid rgba(212,175,55,0.35);
+    display:grid; grid-template-columns:repeat(5,1fr); grid-template-rows:repeat(5,1fr);
+    padding:6px; gap:2px;
+    box-shadow: 0 8px 24px rgba(212,175,55,0.12);
+  }
+  .seal i{ background:rgba(212,175,55,0.15); border-radius:1px; }
+  .seal i.on{ background:var(--gold-soft); }
+
+  /* ---------------- MASTHEAD ---------------- */
+  .masthead{
+    text-align:center; margin-bottom:26px;
+    opacity:0; animation: riseIn .9s cubic-bezier(.2,.8,.2,1) .5s forwards;
+  }
+  .masthead .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px; letter-spacing:3px; text-transform:uppercase;
+    color:var(--muted); margin-bottom:10px;
+  }
+  .masthead h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700; font-style:italic;
+    font-size:42px; letter-spacing:0.3px; margin:0 0 6px;
+    background: linear-gradient(100deg, var(--gold-soft) 15%, var(--gold) 35%, var(--rose) 50%, var(--gold) 65%, var(--gold-soft) 85%);
+    background-size:260% auto;
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    animation: shimmer 6s linear infinite;
+  }
+  .masthead .sub{ font-size:12.5px; letter-spacing:1.5px; color:var(--muted); }
+  @keyframes shimmer{ 0%{ background-position:0% center; } 100%{ background-position:260% center; } }
+  @keyframes riseIn{ from{ opacity:0; transform:translateY(16px); } to{ opacity:1; transform:translateY(0); } }
+
+  /* ---------------- THE CARD ---------------- */
+  .card-stage{ perspective:1200px; margin-bottom:28px; }
+  .card{
+    position:relative; border-radius:20px; padding:26px 24px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 55%),
+      linear-gradient(160deg, #201a24, #14111a 60%, #0e0c10);
+    border:1px solid rgba(212,175,55,0.32);
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.06);
+    transform-style:preserve-3d;
+    transition: transform .12s ease;
+    opacity:0; animation: riseIn .9s cubic-bezier(.2,.8,.2,1) .62s forwards;
+    overflow:hidden;
+  }
+  .card::before{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.10) 45%, transparent 60%);
+    background-size:250% 250%;
+    animation: sheen 5s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes sheen{ 0%{ background-position:200% 0%; } 100%{ background-position:-50% 100%; } }
+  .card-row{ display:flex; justify-content:space-between; align-items:flex-start; position:relative; z-index:1; }
+  .chip{
+    width:38px; height:28px; border-radius:6px;
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+    position:relative; overflow:hidden;
+  }
+  .chip::before, .chip::after{
+    content:""; position:absolute; background:rgba(0,0,0,0.25);
+  }
+  .chip::before{ left:0; right:0; top:50%; height:1.5px; transform:translateY(-50%); }
+  .chip::after{ top:0; bottom:0; left:50%; width:1.5px; transform:translateX(-50%); }
+  .card-badge{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold-soft); border:1px solid rgba(212,175,55,0.4);
+    padding:4px 8px; border-radius:20px;
+    display:flex; align-items:center; gap:5px;
+  }
+  .card-badge .dot{ width:5px; height:5px; border-radius:50%; background:#4ee08a; box-shadow:0 0 6px #4ee08a; }
+  .card-name{ font-family:'Cormorant Garamond', serif; font-size:26px; margin-top:26px; color:var(--ivory); position:relative; z-index:1; }
+  .card-tag{ font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:2px; color:var(--muted); margin-top:4px; text-transform:uppercase; position:relative; z-index:1; }
+
+  /* ---------------- METHOD LIST ---------------- */
+  .section-label{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--gold-soft); margin:22px 4px 12px; opacity:.9;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg, var(--hair), transparent); }
+
+  .method{
+    position:relative; border-radius:14px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.005));
+    border:1px solid rgba(212,175,55,0.12);
+    padding:16px; margin-bottom:12px;
+    opacity:0;
+    animation: cardPop .65s cubic-bezier(.2,.85,.25,1.1) forwards;
+    transition: border-color .25s ease, box-shadow .3s ease, transform .25s ease;
+  }
+  .method:hover{ border-color: rgba(212,175,55,0.5); box-shadow: 0 14px 40px rgba(212,175,55,0.10); transform: translateY(-3px); }
+  @keyframes cardPop{
+    0%{ opacity:0; transform:translateY(22px) scale(.92); filter:blur(4px); }
+    65%{ opacity:1; transform:translateY(-3px) scale(1.02); filter:blur(0); }
+    100%{ opacity:1; transform:translateY(0) scale(1); }
+  }
+  #wallet-methods .method:nth-child(1){ animation-delay:.75s; }
+  #wallet-methods .method:nth-child(2){ animation-delay:.85s; }
+  #wallet-methods .method:nth-child(3){ animation-delay:.95s; }
+  #wallet-methods .method:nth-child(4){ animation-delay:1.05s; }
+  #bank-methods .method:nth-child(1){ animation-delay:1.15s; }
+  #bank-methods .method:nth-child(2){ animation-delay:1.25s; }
+  #bank-methods .method:nth-child(3){ animation-delay:1.35s; }
+
+  .method-top{ display:flex; align-items:center; gap:13px; }
+  .badge{
+    flex:0 0 auto; width:44px; height:44px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+    position:relative;
+  }
+  .badge svg{ width:20px; height:20px; }
+  .method-name{ font-weight:700; font-size:15px; color:var(--ivory); letter-spacing:.2px; }
+  .method-sub{ font-size:11px; color:var(--muted); margin-top:2px; }
+
+  .method-details{
+    margin-top:14px; padding-top:14px; border-top:1px dashed rgba(212,175,55,0.18);
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .acct-num{ font-family:'IBM Plex Mono', monospace; font-size:15px; letter-spacing:.5px; color:var(--gold-soft); word-break:break-all; }
+  .acct-title{ font-size:11px; color:var(--muted); margin-top:3px; }
+
+  .btn-row{ display:flex; gap:8px; flex:0 0 auto; }
+  button.action{
+    border:none; cursor:pointer; position:relative; overflow:visible;
+    font-family:'Manrope',sans-serif; font-size:12px; font-weight:700;
+    padding:9px 14px; border-radius:9px;
+    transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
+  }
+  button.action:active{ transform:scale(0.94); }
+  .btn-copy{ background: linear-gradient(135deg, var(--gold-soft), var(--gold)); color:#241d06; }
+  .btn-copy:hover{ box-shadow:0 8px 22px rgba(212,175,55,0.4); }
+  .btn-copy.copied{ background: linear-gradient(135deg,#9fe3c0,#57c98d); }
+  .btn-app{ background:transparent; color:var(--gold-soft); border:1px solid rgba(212,175,55,0.4); }
+  .btn-app:hover{ border-color:var(--gold); background:rgba(212,175,55,0.08); }
+
+  .confetti-bit{
+    position:fixed; width:5px; height:5px; border-radius:50%;
+    background:var(--gold-soft); pointer-events:none; z-index:60;
+  }
+
+  .panel-foot{
+    text-align:center; padding:22px 0 10px;
+    font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:2px;
+    color:var(--muted); text-transform:uppercase;
+    opacity:0; animation: riseIn .9s ease 1.5s forwards;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .panel-foot svg{ width:12px; height:12px; }
+
+  #toast{
+    position:fixed; left:50%; bottom:30px; transform:translateX(-50%) translateY(20px);
+    background: linear-gradient(135deg, var(--gold-soft), var(--gold)); color:#241d06;
+    padding:11px 20px; border-radius:30px; font-size:13px; font-weight:700;
+    font-family:'Manrope',sans-serif; box-shadow: var(--shadow-lg);
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:50;
+  }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; opacity:1 !important; }
+    .curtain{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="curtain">
+  <div class="panel">
+    <div class="curtain-mark">PAYLINK PRO</div>
+  </div>
+  <div class="panel"></div>
+</div>
+<svg class="grain" width="100%" height="100%">
+  <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#n)"/>
+</svg>
+
+<div class="glow"></div>
+<div class="motes" id="motes"></div>
+
+<div class="sheet">
+  <div class="seal-wrap">
+    <div class="seal" id="seal"></div>
+  </div>
+
+  <div class="masthead">
+    <div class="eyebrow">Verified Merchant · Pakistan</div>
+    <h1>PayLink Pro</h1>
+    <div class="sub">One QR · Every Payment</div>
+  </div>
+
+  <div class="card-stage">
+    <div class="card" id="tiltCard">
+      <div class="card-row">
+        <div class="chip"></div>
+        <div class="card-badge"><span class="dot"></span>Live</div>
+      </div>
+      <div class="card-name">Zain Ahmed</div>
+      <div class="card-tag">Scan · Select · Pay</div>
+    </div>
+  </div>
+
+  <div class="section-label">Mobile Wallets</div>
+  <div id="wallet-methods"></div>
+
+  <div class="section-label">Banks &amp; Instant Transfer</div>
+  <div id="bank-methods"></div>
+
+  <div class="panel-foot">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/></svg>
+    Secured · Encrypted transfer details
+  </div>
+</div>
+
+<div id="toast">Copied</div>
+
+<script>
+/* ======================================================
+   YAHAN APNA DATA DALEIN — details neeche update karein
+   ====================================================== */
+const ICONS = {
+  wallet: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h3v-4z"/></svg>`,
+  bank:   `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-6h6v6"/></svg>`,
+  bolt:   `<svg viewBox="0 0 24 24" fill="#fff"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>`,
+  id:     `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2"/><path d="M15 10h3M15 14h3"/></svg>`
+};
+
+const paymentMethods = {
+  wallets: [
+    { name:"JazzCash",  icon:"wallet", color:"linear-gradient(135deg,#ff6a4d,#c9241a)", accountTitle:"Zain Ahmed", accountNumber:"0300-0000000", deepLink:"jazzcash://send?number=03000000000", logoUrl:"" },
+    { name:"Easypaisa", icon:"wallet", color:"linear-gradient(135deg,#2fd07f,#0c8a4c)", accountTitle:"Zain Ahmed", accountNumber:"0300-0000000", deepLink:"easypaisa://send?number=03000000000", logoUrl:"" },
+    { name:"NayaPay",   icon:"id",     color:"linear-gradient(135deg,#6a6fe0,#3235a0)", accountTitle:"Zain Ahmed", accountNumber:"@zainahmed",    deepLink:"", logoUrl:"" },
+    { name:"SadaPay",   icon:"id",     color:"linear-gradient(135deg,#3a3a42,#111114)", accountTitle:"Zain Ahmed", accountNumber:"@zainahmed",    deepLink:"", logoUrl:"" }
+  ],
+  banks: [
+    { name:"Raast (Instant Transfer)", icon:"bolt", color:"linear-gradient(135deg,#3fb6c9,#1a5f74)", accountTitle:"Zain Ahmed", accountNumber:"0300-0000000", deepLink:"", logoUrl:"" },
+    { name:"HBL",                icon:"bank", color:"linear-gradient(135deg,#b4384a,#6e1522)", accountTitle:"Zain Ahmed", accountNumber:"PK00HABB0000000000000000", deepLink:"", logoUrl:"" },
+    { name:"Standard Chartered", icon:"bank", color:"linear-gradient(135deg,#1f6fb2,#0b3a63)", accountTitle:"Zain Ahmed", accountNumber:"PK00SCBL0000000000000000", deepLink:"", logoUrl:"" }
+  ]
+};
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(()=> t.classList.remove('show'), 1600);
+}
+
+function burstConfetti(x, y){
+  for(let i=0;i<14;i++){
+    const b = document.createElement('div');
+    b.className = 'confetti-bit';
+    b.style.left = x + 'px';
+    b.style.top = y + 'px';
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 30 + Math.random()*40;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist;
+    b.style.background = Math.random() > 0.5 ? '#f3dfa3' : '#e3b98f';
+    document.body.appendChild(b);
+    b.animate([
+      { transform:'translate(0,0) scale(1)', opacity:1 },
+      { transform:`translate(${dx}px, ${dy}px) scale(0)`, opacity:0 }
+    ], { duration: 650 + Math.random()*300, easing:'cubic-bezier(.2,.8,.2,1)' });
+    setTimeout(()=> b.remove(), 1000);
+  }
+}
+
+async function copyText(text, btn){
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  showToast('Copied ✓');
+  if(btn){
+    const r = btn.getBoundingClientRect();
+    burstConfetti(r.left + r.width/2, r.top + r.height/2);
+    const original = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(()=>{ btn.textContent = original; btn.classList.remove('copied'); }, 1400);
+  }
+}
+
+function tryOpenApp(deepLink, appName){
+  if(!deepLink){ showToast(appName + ' app link abhi set nahi hai'); return; }
+  window.location.href = deepLink;
+}
+
+function renderMethods(list, containerId){
+  const container = document.getElementById(containerId);
+  container.innerHTML = list.map(m => `
+    <div class="method">
+      <div class="method-top">
+        <div class="badge" style="background:${m.logoUrl ? 'transparent' : m.color}">
+          ${m.logoUrl ? `<img src="${m.logoUrl}" alt="${m.name}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;">` : ICONS[m.icon] || ICONS.id}
+        </div>
+        <div>
+          <div class="method-name">${m.name}</div>
+          <div class="method-sub">Tap copy, then paste in your banking app</div>
+        </div>
+      </div>
+      <div class="method-details">
+        <div>
+          <div class="acct-num">${m.accountNumber}</div>
+          <div class="acct-title">${m.accountTitle}</div>
+        </div>
+        <div class="btn-row">
+          <button class="action btn-copy" onclick="copyText('${m.accountNumber}', this)">Copy</button>
+          ${m.deepLink ? `<button class="action btn-app" onclick="tryOpenApp('${m.deepLink}','${m.name}')">Open App</button>` : ``}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderMethods(paymentMethods.wallets, 'wallet-methods');
+renderMethods(paymentMethods.banks, 'bank-methods');
+
+/* card tilt */
+const card = document.getElementById('tiltCard');
+const stage = card.parentElement;
+stage.addEventListener('mousemove', (e)=>{
+  const r = stage.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width - 0.5;
+  const y = (e.clientY - r.top) / r.height - 0.5;
+  card.style.transform = `rotateY(${x*12}deg) rotateX(${-y*12}deg)`;
+});
+stage.addEventListener('mouseleave', ()=>{ card.style.transform = `rotateY(0deg) rotateX(0deg)`; });
+
+/* floating motes */
+const motesEl = document.getElementById('motes');
+for(let i=0;i<18;i++){
+  const m = document.createElement('div');
+  m.className = 'mote';
+  m.style.left = Math.random()*100 + '%';
+  m.style.top = 60 + Math.random()*40 + '%';
+  m.style.animationDelay = (Math.random()*8) + 's';
+  m.style.animationDuration = (6 + Math.random()*6) + 's';
+  motesEl.appendChild(m);
+}
+
+/* decorative pseudo-QR seal (fixed deterministic pattern) */
+const sealPattern = [1,0,1,1,0, 0,1,0,1,1, 1,1,1,0,0, 0,0,1,1,1, 1,0,0,1,0];
+const sealEl = document.getElementById('seal');
+sealPattern.forEach(v=>{
+  const i = document.createElement('i');
+  if(v) i.className = 'on';
+  sealEl.appendChild(i);
+});
+</script>
+
+</body>
+</html>
